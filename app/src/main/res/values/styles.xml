@@ -1,0 +1,18 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="ImageViewButton">
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:scaleType">center</item>
+        <item name="android:tint">#ff37474f</item>
+    </style>
+
+</resources>

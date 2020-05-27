@@ -1,0 +1,96 @@
+{
+  "code": 200,
+  "data": [
+    {
+      "id": 0,
+      "url": "https://en.wikipedia.org/wiki/Android",
+      "iconUrl": "https://en.wikipedia.org/static/favicon/wikipedia.ico",
+      "title": "Wikipedia Android",
+      "description": "Android (robot), a humanoid robot or synthetic organism designed to imitate a human"
+    },
+    {
+      "id": 1,
+      "url": "https://en.wikipedia.org/wiki/Android",
+      "iconUrl": "https://en.wikipedia.org/static/favicon/wikipedia.ico",
+      "title": "Wikipedia Android Again",
+      "description": "Android (robot), a humanoid robot or synthetic organism designed to imitate a human"
+    },
+    {
+      "id": 2,
+      "url": "https://en.wikipedia.org/wiki/Android",
+      "iconUrl": "https://en.wikipedia.org/static/favicon/wikipedia.ico",
+      "title": "Wikipedia Android!!",
+      "description": "Android (robot), a humanoid robot or synthetic organism designed to imitate a human"
+    },
+    {
+      "id": 3,
+      "url": "https://en.wikipedia.org/wiki/Android",
+      "iconUrl": "https://en.wikipedia.org/static/favicon/wikipedia.ico",
+      "title": "Wikipedia Android!!",
+      "description": "Android (robot), a humanoid robot or synthetic organism designed to imitate a human"
+    },
+    {
+      "id": 4,
+      "url": "https://en.wikipedia.org/wiki/Android",
+      "iconUrl": "https://en.wikipedia.org/static/favicon/wikipedia.ico",
+      "title": "Wikipedia Android!!",
+      "description": "Android (robot), a humanoid robot or synthetic organism designed to imitate a human"
+    },
+    {
+      "id": 5,
+      "url": "https://en.wikipedia.org/wiki/Android",
+      "iconUrl": "https://en.wikipedia.org/static/favicon/wikipedia.ico",
+      "title": "Wikipedia Android!!",
+      "description": "Android (robot), a humanoid robot or synthetic organism designed to imitate a human"
+    },
+    {
+      "id": 6,
+      "url": "https://en.wikipedia.org/wiki/Android",
+      "iconUrl": "https://en.wikipedia.org/static/favicon/wikipedia.ico",
+      "title": "Wikipedia Android!!",
+      "description": "Android (robot), a humanoid robot or synthetic organism designed to imitate a human"
+    },
+    {
+      "id": 7,
+      "url": "https://en.wikipedia.org/wiki/Android",
+      "iconUrl": "https://en.wikipedia.org/static/favicon/wikipedia.ico",
+      "title": "Wikipedia Android!!",
+      "description": "Android (robot), a humanoid robot or synthetic organism designed to imitate a human"
+    },
+    {
+      "id": 8,
+      "url": "https://en.wikipedia.org/wiki/Android",
+      "iconUrl": "https://en.wikipedia.org/static/favicon/wikipedia.ico",
+      "title": "Wikipedia Android!!",
+      "description": "Android (robot), a humanoid robot or synthetic organism designed to imitate a human"
+    },
+    {
+      "id": 9,
+      "url": "https://en.wikipedia.org/wiki/Android",
+      "iconUrl": "https://en.wikipedia.org/static/favicon/wikipedia.ico",
+      "title": "Wikipedia Android!!",
+      "description": "Android (robot), a humanoid robot or synthetic organism designed to imitate a human"
+    },
+    {
+      "id": 10,
+      "url": "https://en.wikipedia.org/wiki/Android",
+      "iconUrl": "https://en.wikipedia.org/static/favicon/wikipedia.ico",
+      "title": "Wikipedia Android!!",
+      "description": "Android (robot), a humanoid robot or synthetic organism designed to imitate a human"
+    },
+    {
+      "id": 11,
+      "url": "https://en.wikipedia.org/wiki/Android",
+      "iconUrl": "https://en.wikipedia.org/static/favicon/wikipedia.ico",
+      "title": "Wikipedia Android!!",
+      "description": "Android (robot), a humanoid robot or synthetic organism designed to imitate a human"
+    },
+    {
+      "id": 12,
+      "url": "https://en.wikipedia.org/wiki/Android",
+      "iconUrl": "https://en.wikipedia.org/static/favicon/wikipedia.ico",
+      "title": "Wikipedia Android!!",
+      "description": "Android (robot), a humanoid robot or synthetic organism designed to imitate a human"
+    }
+  ]
+}

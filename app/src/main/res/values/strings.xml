@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Search Engine</string>
+    <string name="title_search">Search</string>
+    <string name="title_images">Images</string>
+    <string name="title_trends">Trends</string>
+    <string name="no_more_results">No more results</string>
+    <string name="check_internet_connection">Check your internet connection</string>
+</resources>
