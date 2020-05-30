@@ -16,7 +16,7 @@ public class ServiceGenerator {
 
     private static Retrofit.Builder retrofitBuilder =
             new Retrofit.Builder()
-                    .baseUrl("http://***REMOVED***/api/")
+                    .baseUrl("***REMOVED***")
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create());
 

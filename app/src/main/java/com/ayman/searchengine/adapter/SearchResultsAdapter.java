@@ -20,7 +20,7 @@ import java.util.List;
 public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<ListItem> mSearchResults = new ArrayList<>();
-    private int mLastId = -1;
+    private int mPageNumber = 1;
     private UrlClickListener mUrlClickListener;
     private RetryListener mRetryListener;
     private int mItemLayoutID;
@@ -65,12 +65,12 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
         return mSearchResults.get(position).getType();
     }
 
-    public int getLastId() {
-        return mLastId;
+    public int getPageNumberToFetch() {
+        return mPageNumber;
     }
 
     public void clear() {
-        mLastId = -1;
+        mPageNumber = 1;
         mSearchResults.clear();
         notifyDataSetChanged();
     }
@@ -83,7 +83,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
         notifyDataSetChanged();
         int size = mSearchResults.size();
         if (size == 0) return;
-        mLastId = ((SearchResult) mSearchResults.get(size - 1)).getID();
+        mPageNumber++;
     }
 
     private void removeLastItem(int type) {

@@ -53,8 +53,8 @@ public abstract class BaseViewModel extends ViewModel {
         mApi.search(query);
     }
 
-    void searchNext(int lastID) {
-        mApi.searchNext(lastID);
+    void searchNext(int pageNumber) {
+        mApi.searchNext(pageNumber);
     }
 
 

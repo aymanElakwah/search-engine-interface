@@ -149,8 +149,8 @@ public abstract class SearchFragment extends Fragment implements SearchResultsAd
         mRecyclerView.setAdapter(mAdapter);
         CustomRecyclerView.LoadMore loadMore = new CustomRecyclerView.LoadMore() {
             @Override
-            public void loadMore(int lastID) {
-                mViewModel.searchNext(lastID);
+            public void loadMore(int pageNumber) {
+                mViewModel.searchNext(pageNumber);
             }
         };
         mRecyclerView.init(getViewLifecycleOwner(), loadMore,

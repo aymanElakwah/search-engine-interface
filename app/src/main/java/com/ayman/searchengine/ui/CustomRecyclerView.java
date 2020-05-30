@@ -77,7 +77,7 @@ public class CustomRecyclerView extends RecyclerView {
                         mAdapter.setLoading();
                     }
                 });
-                mLoadMore.loadMore(mAdapter.getLastId());
+                mLoadMore.loadMore(mAdapter.getPageNumberToFetch());
             }
         });
     }
@@ -92,7 +92,7 @@ public class CustomRecyclerView extends RecyclerView {
             @Override
             public void retry() {
                 if (!mNoInternet) return;
-                mLoadMore.loadMore(mAdapter.getLastId());
+                mLoadMore.loadMore(mAdapter.getPageNumberToFetch());
                 post(new Runnable() {
                     @Override
                     public void run() {

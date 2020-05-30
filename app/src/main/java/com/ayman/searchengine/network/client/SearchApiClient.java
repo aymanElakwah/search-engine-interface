@@ -11,7 +11,7 @@ import java.util.List;
 public abstract class SearchApiClient {
 
     String mQuery;
-    int mLastID;
+    int mPageNumber;
     MutableLiveData<List<SearchResult>> mSearchResults;
     MutableLiveData<Boolean> mNoInternet = new MutableLiveData<>();
     MutableLiveData<Boolean> mIsQueryExhausted = new MutableLiveData<>();
@@ -34,12 +34,12 @@ public abstract class SearchApiClient {
 
     public void search(String query) {
         mQuery = query;
-        mLastID = -1;
+        mPageNumber = 1;
         search();
     }
 
-    public void searchNext(int lastID) {
-        mLastID = lastID;
+    public void searchNext(int pageNumber) {
+        mPageNumber = pageNumber;
         search();
     }
 

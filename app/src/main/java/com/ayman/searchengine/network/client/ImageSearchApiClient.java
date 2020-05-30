@@ -1,9 +1,9 @@
 package com.ayman.searchengine.network.client;
 
 
+import com.ayman.searchengine.model.ImageSearchResult;
 import com.ayman.searchengine.model.SearchResult;
 import com.ayman.searchengine.network.ServiceGenerator;
-import com.ayman.searchengine.network.response.ImageSearchResultsResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,21 +16,20 @@ public class ImageSearchApiClient extends SearchApiClient {
 
     private static final int RESULTS_PER_PAGE = 10;
     private static ImageSearchApiClient instance;
-    private Call<ImageSearchResultsResponse> mImageSearchCall;
-    private Callback<ImageSearchResultsResponse> mImageSearchCallBack;
+    private Call<List<ImageSearchResult>> mImageSearchCall;
+    private Callback<List<ImageSearchResult>> mImageSearchCallBack;
 
     private ImageSearchApiClient() {
-        mImageSearchCallBack = new Callback<ImageSearchResultsResponse>() {
+        mImageSearchCallBack = new Callback<List<ImageSearchResult>>() {
             @Override
-            public void onResponse(Call<ImageSearchResultsResponse> call, Response<ImageSearchResultsResponse> response) {
+            public void onResponse(Call<List<ImageSearchResult>> call, Response<List<ImageSearchResult>> response) {
                 if (!response.isSuccessful()) {
                     mNoInternet.postValue(true);
-                    if (mLastID == -1) mSearchResults.postValue(null);
+                    if (mPageNumber == 1) mSearchResults.postValue(null);
                     return;
                 }
-                ImageSearchResultsResponse body = response.body();
-                List<SearchResult> list = new ArrayList<SearchResult>(body.getData());
-                if (mLastID == -1) {
+                List<SearchResult> list = new ArrayList<SearchResult>(response.body());
+                if (mPageNumber == 1) {
                     mSearchResults.postValue(list);
                 } else {
                     List<SearchResult> searchResults = mSearchResults.getValue();
@@ -42,10 +41,10 @@ public class ImageSearchApiClient extends SearchApiClient {
             }
 
             @Override
-            public void onFailure(Call<ImageSearchResultsResponse> call, Throwable t) {
-                if(call.isCanceled()) return;
+            public void onFailure(Call<List<ImageSearchResult>> call, Throwable t) {
+                if (call.isCanceled()) return;
                 mNoInternet.postValue(true);
-                if (mLastID == -1) mSearchResults.postValue(null);
+                if (mPageNumber == 1) mSearchResults.postValue(null);
             }
         };
     }
@@ -62,14 +61,14 @@ public class ImageSearchApiClient extends SearchApiClient {
         if (mImageSearchCall != null) mImageSearchCall.cancel();
         mIsQueryExhausted.setValue(false);
         mNoInternet.setValue(false);
-        mImageSearchCall = getImageSearchResults(mQuery, mLastID);
+        mImageSearchCall = getImageSearchResults(mQuery, mPageNumber);
         mImageSearchCall.enqueue(mImageSearchCallBack);
     }
 
-    private Call<ImageSearchResultsResponse> getImageSearchResults(String query, int lastID) {
+    private Call<List<ImageSearchResult>> getImageSearchResults(String query, int pageNumber) {
         return ServiceGenerator.getSearchApi().searchImage(
                 query,
-                String.valueOf(lastID),
+                String.valueOf(pageNumber),
                 RESULTS_PER_PAGE
         );
     }

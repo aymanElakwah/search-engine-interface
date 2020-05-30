@@ -11,11 +11,13 @@ import com.bumptech.glide.request.RequestOptions;
 public class ImageSearchResult extends SearchResult {
     private Integer id;
     private String url;
+    private String imageUrl;
     private String title;
 
-    public ImageSearchResult(Integer id, String url, String title) {
+    public ImageSearchResult(Integer id, String imageUrl, String url, String title) {
         this.id = id;
         this.url = url;
+        this.imageUrl = imageUrl;
         this.title = title;
     }
 
@@ -45,6 +47,10 @@ public class ImageSearchResult extends SearchResult {
         if (split.length >= 3)
             return split[2];
         return url;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 
     public String getTitle() {

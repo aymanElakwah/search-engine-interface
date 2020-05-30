@@ -1,15 +1,10 @@
 package com.ayman.searchengine.network.client;
 
 
-import android.util.Log;
-
-import androidx.lifecycle.LiveData;
-
 import com.ayman.searchengine.model.SearchResult;
+import com.ayman.searchengine.model.TextSearchResult;
 import com.ayman.searchengine.network.ServiceGenerator;
-import com.ayman.searchengine.network.response.TextSearchResultsResponse;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,17 +16,16 @@ public class TextSearchApiClient extends SearchApiClient {
 
     private static final int RESULTS_PER_PAGE = 10;
     private static TextSearchApiClient instance;
-    private Call<TextSearchResultsResponse> mTextSearchCall;
-    private Callback<TextSearchResultsResponse> mTextSearchCallBack;
+    private Call<List<TextSearchResult>> mTextSearchCall;
+    private Callback<List<TextSearchResult>> mTextSearchCallBack;
 
     private TextSearchApiClient() {
-        mTextSearchCallBack = new Callback<TextSearchResultsResponse>() {
+        mTextSearchCallBack = new Callback<List<TextSearchResult>>() {
             @Override
-            public void onResponse(Call<TextSearchResultsResponse> call, Response<TextSearchResultsResponse> response) {
+            public void onResponse(Call<List<TextSearchResult>> call, Response<List<TextSearchResult>> response) {
                 if (!response.isSuccessful()) return;
-                TextSearchResultsResponse body = response.body();
-                List<SearchResult> list = new ArrayList<SearchResult>(body.getData());
-                if (mLastID == -1) {
+                List<SearchResult> list = new ArrayList<SearchResult>(response.body());
+                if (mPageNumber == 1) {
                     mSearchResults.postValue(list);
                 } else {
                     List<SearchResult> searchResults = mSearchResults.getValue();
@@ -43,10 +37,10 @@ public class TextSearchApiClient extends SearchApiClient {
             }
 
             @Override
-            public void onFailure(Call<TextSearchResultsResponse> call, Throwable t) {
+            public void onFailure(Call<List<TextSearchResult>> call, Throwable t) {
                 if(call.isCanceled()) return;
                 mNoInternet.postValue(true);
-                if (mLastID == -1) mSearchResults.postValue(null);
+                if (mPageNumber == 1) mSearchResults.postValue(null);
             }
         };
     }
@@ -63,14 +57,14 @@ public class TextSearchApiClient extends SearchApiClient {
         if (mTextSearchCall != null) mTextSearchCall.cancel();
         mIsQueryExhausted.setValue(false);
         mNoInternet.setValue(false);
-        mTextSearchCall = getTextSearchResults(mQuery, mLastID);
+        mTextSearchCall = getTextSearchResults(mQuery, mPageNumber);
         mTextSearchCall.enqueue(mTextSearchCallBack);
     }
 
-    private Call<TextSearchResultsResponse> getTextSearchResults(String query, int lastID) {
+    private Call<List<TextSearchResult>> getTextSearchResults(String query, int pageNumber) {
         return ServiceGenerator.getSearchApi().searchText(
                 query,
-                String.valueOf(lastID),
+                pageNumber,
                 RESULTS_PER_PAGE
         );
     }
