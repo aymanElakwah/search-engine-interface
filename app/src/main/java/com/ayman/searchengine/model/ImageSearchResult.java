@@ -6,6 +6,7 @@ import androidx.databinding.BindingAdapter;
 
 import com.ayman.searchengine.R;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 
 public class ImageSearchResult extends SearchResult {
@@ -26,10 +27,13 @@ public class ImageSearchResult extends SearchResult {
         RequestOptions requestOptions = new RequestOptions().
                 placeholder(R.drawable.placeholder)
                 .error(R.drawable.image_not_found);
-        Glide.with(imageView.getContext())
-                .setDefaultRequestOptions(requestOptions)
-                .load(imageURL)
-                .into(imageView);
+        RequestManager requestManager = Glide.with(imageView.getContext())
+                .setDefaultRequestOptions(requestOptions);
+        int extIndex = imageURL.lastIndexOf('.');
+        if (extIndex != -1 && imageURL.substring(extIndex).toLowerCase().startsWith(".gif"))
+            requestManager.asGif().load(imageURL).into(imageView);
+        else
+            requestManager.load(imageURL).into(imageView);
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.ayman.searchengine.model.SearchResult;
 import com.ayman.searchengine.network.ServiceGenerator;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -29,6 +30,7 @@ public class ImageSearchApiClient extends SearchApiClient {
                     return;
                 }
                 List<SearchResult> list = new ArrayList<SearchResult>(response.body());
+                filterResults(list);
                 if (mPageNumber == 1) {
                     mSearchResults.postValue(list);
                 } else {
@@ -47,6 +49,16 @@ public class ImageSearchApiClient extends SearchApiClient {
                 if (mPageNumber == 1) mSearchResults.postValue(null);
             }
         };
+    }
+
+    private void filterResults(List<SearchResult> results) {
+        Iterator<SearchResult> it = results.iterator();
+        while (it.hasNext()) {
+            ImageSearchResult result = (ImageSearchResult) it.next();
+            String imageUrl = result.getImageUrl();
+            if (!imageUrl.startsWith("http") || imageUrl.substring(imageUrl.lastIndexOf('.')).startsWith(".svg"))
+                it.remove();
+        }
     }
 
     public static ImageSearchApiClient getInstance() {
