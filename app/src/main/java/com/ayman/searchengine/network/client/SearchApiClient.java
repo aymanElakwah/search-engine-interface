@@ -5,8 +5,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.ayman.searchengine.model.SearchResult;
+import com.ayman.searchengine.network.ServiceGenerator;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public abstract class SearchApiClient {
 
@@ -46,6 +51,18 @@ public abstract class SearchApiClient {
     public void searchNext(int pageNumber) {
         mPageNumber = pageNumber;
         search();
+    }
+
+    public void click(String link) {
+        ServiceGenerator.getSearchApi().click(mUser, link).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+            }
+        });
     }
 
     protected abstract void search();

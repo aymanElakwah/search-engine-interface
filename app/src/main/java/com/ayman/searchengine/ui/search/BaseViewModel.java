@@ -69,4 +69,8 @@ public abstract class BaseViewModel extends ViewModel {
     }
 
     protected abstract SearchApiClient getApi();
+
+    public void click(String url) {
+        mApi.click(url.split("/")[2]);
+    }
 }

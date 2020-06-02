@@ -38,4 +38,10 @@ public interface SearchApi {
 
     @GET("request_id")
     Call<String> requestID();
+
+    @GET("click")
+    Call<List<String>> click(
+            @Query("user") String user,
+            @Query("link") String link
+    );
 }

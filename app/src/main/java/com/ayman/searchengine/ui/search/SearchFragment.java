@@ -201,6 +201,7 @@ public abstract class SearchFragment extends Fragment implements SearchResultsAd
 
     @Override
     public void openURL(String url) {
+        mViewModel.click(url);
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(browserIntent);
     }
