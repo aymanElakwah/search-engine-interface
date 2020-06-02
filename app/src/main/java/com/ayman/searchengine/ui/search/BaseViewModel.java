@@ -1,7 +1,6 @@
 package com.ayman.searchengine.ui.search;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.ayman.searchengine.model.SearchResult;
@@ -14,10 +13,11 @@ public abstract class BaseViewModel extends ViewModel {
     protected SearchApiClient mApi;
     protected LiveData<List<SearchResult>> mSearchResults;
     private SuggestionsApiClient mSuggestionsApi;
-    private MutableLiveData<String> searchQuery;
+    private String searchQuery;
     private LiveData<Boolean> isQueryExhausted;
     private LiveData<Boolean> isRequestTimedOut;
     private LiveData<List<String>> suggestions;
+    private String mSearchedCountry;
 
     protected BaseViewModel() {
         mApi = getApi();
@@ -25,10 +25,11 @@ public abstract class BaseViewModel extends ViewModel {
         isQueryExhausted = mApi.isQueryExhausted();
         isRequestTimedOut = mApi.isNoInternet();
         suggestions = mSuggestionsApi.getSuggestions();
-        searchQuery = new MutableLiveData<>("");
+        searchQuery = "";
+        mSearchedCountry = "";
     }
 
-    public LiveData<String> getSearchQuery() {
+    public String getSearchQuery() {
         return searchQuery;
     }
 
@@ -49,7 +50,8 @@ public abstract class BaseViewModel extends ViewModel {
     }
 
     public void search(String query, String country, String user) {
-        searchQuery.setValue(query);
+        searchQuery = query;
+        mSearchedCountry = country;
         mApi.search(query, country, user);
     }
 
@@ -60,6 +62,10 @@ public abstract class BaseViewModel extends ViewModel {
 
     LiveData<List<SearchResult>> getSearchResults() {
         return mSearchResults;
+    }
+
+    public String getSearchedCountry() {
+        return mSearchedCountry;
     }
 
     protected abstract SearchApiClient getApi();

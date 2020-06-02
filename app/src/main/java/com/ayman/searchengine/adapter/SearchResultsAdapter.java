@@ -76,10 +76,8 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public void setSearchResults(List<SearchResult> results) {
-        if (results == null)
-            mSearchResults = new ArrayList<>();
-        else
-            mSearchResults = new ArrayList<ListItem>(results);
+        if (results == null) return;
+        mSearchResults = new ArrayList<ListItem>(results);
         notifyDataSetChanged();
         int size = mSearchResults.size();
         if (size == 0) return;
@@ -134,6 +132,11 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
         mRetryListener = retryListener;
     }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
     public interface UrlClickListener {
         void openURL(String url);
     }
@@ -161,10 +164,5 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
             mBinding.setVariable(BR.item, result);
             mBinding.executePendingBindings();
         }
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
     }
 }

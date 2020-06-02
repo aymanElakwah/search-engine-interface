@@ -39,6 +39,7 @@ public abstract class SearchApiClient {
         mPageNumber = 1;
         mCountry = country;
         mUser = user;
+        mSearchResults.setValue(null);
         search();
     }
 

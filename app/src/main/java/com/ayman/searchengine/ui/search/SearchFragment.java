@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class SearchFragment extends Fragment implements SearchResultsAdapter.UrlClickListener {
-    public static final int RECOGNIZE_SPEECH = 10;
+    private static final int RECOGNIZE_SPEECH = 10;
     protected NavBackStackEntry mBackStackEntry;
     private FragmentSearchBinding mBinding;
     private BaseViewModel mViewModel;
@@ -60,21 +60,24 @@ public abstract class SearchFragment extends Fragment implements SearchResultsAd
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false);
         mViewModel = getViewModel();
         mBinding.setModel(mViewModel);
-        loadUser();
         View root = mBinding.getRoot();
-        setupRecyclerView(root);
+        loadUser();
         setupSearchBox(root);
+        setupRecyclerView(root);
         setupAutoComplete(root);
-        mViewModel.getSearchQuery().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String loadedQuery) {
-                mViewModel.getSearchQuery().removeObserver(this);
-                String currentQuery = ((MainActivity) requireActivity()).currentQuery;
-                if (currentQuery == null) return;
-                if (!loadedQuery.equals(currentQuery))
-                    search(currentQuery);
-            }
-        });
+        final String currentQuery = ((MainActivity) requireActivity()).getCurrentQuery();
+        if (currentQuery == null) {
+            mSearchBox.post(new Runnable() {
+                @Override
+                public void run() {
+                    showKeyboard(mSearchBox);
+                }
+            });
+            return root;
+        }
+        if (!mViewModel.getSearchedCountry().equals(mCountryCode) || !mViewModel.getSearchQuery().equals(currentQuery))
+            search(currentQuery);
+        mRecyclerView.requestFocus();
         return root;
     }
 
@@ -102,7 +105,6 @@ public abstract class SearchFragment extends Fragment implements SearchResultsAd
 
     private void setupSearchBox(View root) {
         mSearchBox = root.findViewById(R.id.search_box);
-        mRecyclerView.requestFocus();
         mSearchBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -158,6 +160,7 @@ public abstract class SearchFragment extends Fragment implements SearchResultsAd
         mAdapter = new SearchResultsAdapter(this, getItemLayoutID());
         mAdapter.setHasStableIds(true);
         mRecyclerView = root.findViewById(R.id.text_search_results);
+        mRecyclerView.requestFocus();
         mRecyclerView.setLayoutManager(getLayoutManager());
         mRecyclerView.setAdapter(mAdapter);
         CustomRecyclerView.LoadMore loadMore = new CustomRecyclerView.LoadMore() {
@@ -172,7 +175,7 @@ public abstract class SearchFragment extends Fragment implements SearchResultsAd
     }
 
     private void search(String query) {
-        ((MainActivity) requireActivity()).currentQuery = query;
+        ((MainActivity) requireActivity()).setCurrentQuery(query);
         mAdapter.clear();
         mAdapter.setLoading();
         mViewModel.search(query, mCountryCode, mUserID);
