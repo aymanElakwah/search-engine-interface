@@ -16,15 +16,18 @@ public interface SearchApi {
     Call<List<TextSearchResult>> searchText(
             @Query("query") String query,
             @Query("page_number") int pageNumber,
-            @Query("per_page") int perPage
-
+            @Query("per_page") int perPage,
+            @Query("country") String country,
+            @Query("user") String user
     );
 
     @GET("images")
     Call<List<ImageSearchResult>> searchImage(
             @Query("query") String query,
             @Query("page_number") String lastID,
-            @Query("per_page") int perPage
+            @Query("per_page") int perPage,
+            @Query("country") String country,
+            @Query("user") String user
 
     );
 

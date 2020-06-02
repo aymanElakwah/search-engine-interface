@@ -2,6 +2,7 @@ package com.ayman.searchengine.ui.search;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -26,6 +27,7 @@ import androidx.lifecycle.Observer;
 import androidx.navigation.NavBackStackEntry;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ayman.searchengine.MainActivity;
@@ -33,6 +35,8 @@ import com.ayman.searchengine.R;
 import com.ayman.searchengine.adapter.SearchResultsAdapter;
 import com.ayman.searchengine.databinding.FragmentSearchBinding;
 import com.ayman.searchengine.ui.CustomRecyclerView;
+import com.ayman.searchengine.ui.home.Countries;
+import com.ayman.searchengine.ui.home.HomeViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +49,8 @@ public abstract class SearchFragment extends Fragment implements SearchResultsAd
     private CustomRecyclerView mRecyclerView;
     private AutoCompleteTextView mSearchBox;
     private SearchResultsAdapter mAdapter;
+    private String mUserID;
+    private String mCountryCode;
 
     @Nullable
     @Override
@@ -54,6 +60,7 @@ public abstract class SearchFragment extends Fragment implements SearchResultsAd
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false);
         mViewModel = getViewModel();
         mBinding.setModel(mViewModel);
+        loadUser();
         View root = mBinding.getRoot();
         setupRecyclerView(root);
         setupSearchBox(root);
@@ -69,6 +76,12 @@ public abstract class SearchFragment extends Fragment implements SearchResultsAd
             }
         });
         return root;
+    }
+
+    private void loadUser() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        mCountryCode = Countries.getSavedCountryCode(preferences);
+        mUserID = preferences.getString(HomeViewModel.USER_ID, "");
     }
 
     private void setupAutoComplete(View root) {
@@ -162,7 +175,7 @@ public abstract class SearchFragment extends Fragment implements SearchResultsAd
         ((MainActivity) requireActivity()).currentQuery = query;
         mAdapter.clear();
         mAdapter.setLoading();
-        mViewModel.search(query);
+        mViewModel.search(query, mCountryCode, mUserID);
     }
 
     private void showKeyboard(View view) {

@@ -12,6 +12,8 @@ public abstract class SearchApiClient {
 
     String mQuery;
     int mPageNumber;
+    String mCountry;
+    String mUser;
     MutableLiveData<List<SearchResult>> mSearchResults;
     MutableLiveData<Boolean> mNoInternet = new MutableLiveData<>();
     MutableLiveData<Boolean> mIsQueryExhausted = new MutableLiveData<>();
@@ -32,9 +34,11 @@ public abstract class SearchApiClient {
         return mSearchResults;
     }
 
-    public void search(String query) {
+    public void search(String query, String country, String user) {
         mQuery = query;
         mPageNumber = 1;
+        mCountry = country;
+        mUser = user;
         search();
     }
 

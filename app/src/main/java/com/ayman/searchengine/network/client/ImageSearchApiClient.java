@@ -73,15 +73,17 @@ public class ImageSearchApiClient extends SearchApiClient {
         if (mImageSearchCall != null) mImageSearchCall.cancel();
         mIsQueryExhausted.setValue(false);
         mNoInternet.setValue(false);
-        mImageSearchCall = getImageSearchResults(mQuery, mPageNumber);
+        mImageSearchCall = getImageSearchResults(mQuery, mPageNumber, mCountry, mUser);
         mImageSearchCall.enqueue(mImageSearchCallBack);
     }
 
-    private Call<List<ImageSearchResult>> getImageSearchResults(String query, int pageNumber) {
+    private Call<List<ImageSearchResult>> getImageSearchResults(String query, int pageNumber, String country, String user) {
         return ServiceGenerator.getSearchApi().searchImage(
                 query,
                 String.valueOf(pageNumber),
-                RESULTS_PER_PAGE
+                RESULTS_PER_PAGE,
+                country,
+                user
         );
     }
 }

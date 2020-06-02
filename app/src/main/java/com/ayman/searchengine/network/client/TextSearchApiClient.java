@@ -38,7 +38,7 @@ public class TextSearchApiClient extends SearchApiClient {
 
             @Override
             public void onFailure(Call<List<TextSearchResult>> call, Throwable t) {
-                if(call.isCanceled()) return;
+                if (call.isCanceled()) return;
                 mNoInternet.postValue(true);
                 if (mPageNumber == 1) mSearchResults.postValue(null);
             }
@@ -57,15 +57,17 @@ public class TextSearchApiClient extends SearchApiClient {
         if (mTextSearchCall != null) mTextSearchCall.cancel();
         mIsQueryExhausted.setValue(false);
         mNoInternet.setValue(false);
-        mTextSearchCall = getTextSearchResults(mQuery, mPageNumber);
+        mTextSearchCall = getTextSearchResults(mQuery, mPageNumber, mCountry, mUser);
         mTextSearchCall.enqueue(mTextSearchCallBack);
     }
 
-    private Call<List<TextSearchResult>> getTextSearchResults(String query, int pageNumber) {
+    private Call<List<TextSearchResult>> getTextSearchResults(String query, int pageNumber, String country, String user) {
         return ServiceGenerator.getSearchApi().searchText(
                 query,
                 pageNumber,
-                RESULTS_PER_PAGE
+                RESULTS_PER_PAGE,
+                country,
+                user
         );
     }
 }

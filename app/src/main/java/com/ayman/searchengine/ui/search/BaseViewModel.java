@@ -48,9 +48,9 @@ public abstract class BaseViewModel extends ViewModel {
         mSuggestionsApi.complete(query);
     }
 
-    public void search(String query) {
+    public void search(String query, String country, String user) {
         searchQuery.setValue(query);
-        mApi.search(query);
+        mApi.search(query, country, user);
     }
 
     void searchNext(int pageNumber) {
