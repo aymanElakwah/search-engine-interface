@@ -7,6 +7,8 @@ import com.ayman.searchengine.model.SearchResult;
 import com.ayman.searchengine.network.client.SearchApiClient;
 import com.ayman.searchengine.network.client.SuggestionsApiClient;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 public abstract class BaseViewModel extends ViewModel {
@@ -45,7 +47,7 @@ public abstract class BaseViewModel extends ViewModel {
         return suggestions;
     }
 
-    public void complete(String query) {
+    void complete(String query) {
         mSuggestionsApi.complete(query);
     }
 
@@ -64,13 +66,16 @@ public abstract class BaseViewModel extends ViewModel {
         return mSearchResults;
     }
 
-    public String getSearchedCountry() {
+    String getSearchedCountry() {
         return mSearchedCountry;
     }
 
     protected abstract SearchApiClient getApi();
 
-    public void click(String url) {
-        mApi.click(url.split("/")[2]);
+    void click(String url) {
+        try {
+            mApi.click(new URL(url).getAuthority());
+        } catch (MalformedURLException ignore) {
+        }
     }
 }
