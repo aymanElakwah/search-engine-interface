@@ -32,4 +32,7 @@ public interface SearchApi {
     Call<List<String>> complete(
             @Query("query") String query
     );
+
+    @GET("request_id")
+    Call<String> requestID();
 }

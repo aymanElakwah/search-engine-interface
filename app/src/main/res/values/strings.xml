@@ -5,4 +5,8 @@
     <string name="title_trends">Trends</string>
     <string name="no_more_results">No more results</string>
     <string name="check_internet_connection">Check your internet connection</string>
+    <string name="title_home">Home</string>
+    <string name="country_label">Country:</string>
+    <string name="user_id_label">User ID:</string>
+    <string name="welcome">Welcome</string>
 </resources>
