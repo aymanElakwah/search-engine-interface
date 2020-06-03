@@ -1,6 +1,8 @@
 package com.ayman.searchengine.network.client;
 
 
+import androidx.annotation.NonNull;
+
 import com.ayman.searchengine.model.ImageSearchResult;
 import com.ayman.searchengine.model.SearchResult;
 import com.ayman.searchengine.network.ServiceGenerator;
@@ -23,7 +25,7 @@ public class ImageSearchApiClient extends SearchApiClient {
     private ImageSearchApiClient() {
         mImageSearchCallBack = new Callback<List<ImageSearchResult>>() {
             @Override
-            public void onResponse(Call<List<ImageSearchResult>> call, Response<List<ImageSearchResult>> response) {
+            public void onResponse(@NonNull Call<List<ImageSearchResult>> call, @NonNull Response<List<ImageSearchResult>> response) {
                 if (!response.isSuccessful()) {
                     mNoInternet.postValue(true);
                     if (mPageNumber == 1) mSearchResults.postValue(null);
@@ -43,12 +45,19 @@ public class ImageSearchApiClient extends SearchApiClient {
             }
 
             @Override
-            public void onFailure(Call<List<ImageSearchResult>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<ImageSearchResult>> call, @NonNull Throwable t) {
                 if (call.isCanceled()) return;
                 mNoInternet.postValue(true);
                 if (mPageNumber == 1) mSearchResults.postValue(null);
             }
         };
+    }
+
+    public static ImageSearchApiClient getInstance() {
+        if (instance == null) {
+            instance = new ImageSearchApiClient();
+        }
+        return instance;
     }
 
     private void filterResults(List<SearchResult> results) {
@@ -59,13 +68,6 @@ public class ImageSearchApiClient extends SearchApiClient {
             if (!imageUrl.startsWith("http") || imageUrl.substring(imageUrl.lastIndexOf('.')).startsWith(".svg"))
                 it.remove();
         }
-    }
-
-    public static ImageSearchApiClient getInstance() {
-        if (instance == null) {
-            instance = new ImageSearchApiClient();
-        }
-        return instance;
     }
 
     @Override

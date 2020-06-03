@@ -1,6 +1,8 @@
 package com.ayman.searchengine.network.client;
 
 
+import androidx.annotation.NonNull;
+
 import com.ayman.searchengine.model.SearchResult;
 import com.ayman.searchengine.model.TextSearchResult;
 import com.ayman.searchengine.network.ServiceGenerator;
@@ -22,7 +24,7 @@ public class TextSearchApiClient extends SearchApiClient {
     private TextSearchApiClient() {
         mTextSearchCallBack = new Callback<List<TextSearchResult>>() {
             @Override
-            public void onResponse(Call<List<TextSearchResult>> call, Response<List<TextSearchResult>> response) {
+            public void onResponse(@NonNull Call<List<TextSearchResult>> call, @NonNull Response<List<TextSearchResult>> response) {
                 if (!response.isSuccessful()) return;
                 List<SearchResult> list = new ArrayList<SearchResult>(response.body());
                 if (mPageNumber == 1) {
@@ -37,7 +39,7 @@ public class TextSearchApiClient extends SearchApiClient {
             }
 
             @Override
-            public void onFailure(Call<List<TextSearchResult>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<TextSearchResult>> call, @NonNull Throwable t) {
                 if (call.isCanceled()) return;
                 mNoInternet.postValue(true);
                 if (mPageNumber == 1) mSearchResults.postValue(null);

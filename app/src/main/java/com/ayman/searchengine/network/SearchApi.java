@@ -2,6 +2,7 @@ package com.ayman.searchengine.network;
 
 import com.ayman.searchengine.model.ImageSearchResult;
 import com.ayman.searchengine.model.TextSearchResult;
+import com.ayman.searchengine.model.Trend;
 
 import java.util.List;
 
@@ -43,5 +44,10 @@ public interface SearchApi {
     Call<List<String>> click(
             @Query("user") String user,
             @Query("link") String link
+    );
+
+    @GET("trends")
+    Call<List<Trend>> getTrends(
+            @Query("country") String country
     );
 }

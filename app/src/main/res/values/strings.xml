@@ -9,4 +9,5 @@
     <string name="country_label">Country:</string>
     <string name="user_id_label">User ID:</string>
     <string name="welcome">Welcome</string>
+    <string name="no_trends">No Trends for Now</string>
 </resources>

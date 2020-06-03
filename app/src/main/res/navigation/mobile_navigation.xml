@@ -16,7 +16,7 @@
         android:id="@+id/navigation_search"
         android:name="com.ayman.searchengine.ui.search.text_search.TextSearchFragment"
         android:label="@string/title_search"
-        tools:layout="@layout/fragment_search"></fragment>
+        tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@+id/navigation_images"

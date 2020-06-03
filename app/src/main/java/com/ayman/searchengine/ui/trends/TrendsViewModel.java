@@ -1,19 +1,34 @@
 package com.ayman.searchengine.ui.trends;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.ayman.searchengine.model.Trend;
+import com.ayman.searchengine.network.client.TrendsApiClient;
+
+import java.util.List;
 
 public class TrendsViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private String mCountry = "";
+    private TrendsApiClient mApi = TrendsApiClient.getInstance();
 
-    public TrendsViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
+
+    void loadTrends(String country) {
+        mCountry = country;
+        mApi.loadTrends(country);
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<List<Trend>> getTrends() {
+        return mApi.getTrends();
     }
+
+    public LiveData<Boolean> isLoading() {
+        return mApi.isLoading();
+    }
+
+    String getLoadedCountry() {
+        return mCountry;
+    }
+
 }

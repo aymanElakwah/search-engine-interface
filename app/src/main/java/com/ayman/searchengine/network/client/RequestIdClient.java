@@ -3,6 +3,7 @@ package com.ayman.searchengine.network.client;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.ayman.searchengine.network.ServiceGenerator;
@@ -22,13 +23,13 @@ public class RequestIdClient {
         mUserID = new MutableLiveData<>();
         mCallBack = new Callback<String>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if (!response.isSuccessful()) return;
                 mUserID.postValue(response.body());
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                 Log.e("USER_ID", t.toString());
             }
         };

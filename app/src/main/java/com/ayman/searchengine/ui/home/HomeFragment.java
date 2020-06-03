@@ -10,7 +10,6 @@ import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -22,17 +21,16 @@ import com.ayman.searchengine.R;
 import com.ayman.searchengine.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
-    private FragmentHomeBinding mBinding;
     private HomeViewModel mViewModel;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         initViewModel();
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
-        mBinding.setLifecycleOwner(getViewLifecycleOwner());
-        mBinding.setModel(mViewModel);
-        View root = mBinding.getRoot();
+        com.ayman.searchengine.databinding.FragmentHomeBinding binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding.setLifecycleOwner(getViewLifecycleOwner());
+        binding.setModel(mViewModel);
+        View root = binding.getRoot();
         Spinner spinner = root.findViewById(R.id.country_spinner);
         spinner.setAdapter(new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, Countries.getCountryNames()));
         Integer selectedCountryIndex = mViewModel.getSelectedCountry().getValue();
