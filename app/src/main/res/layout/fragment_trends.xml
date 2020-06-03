@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/no_trends"
-            android:visibility="@{(!model.trends.empty || model.isLoading()) ? View.GONE : View.VISIBLE}" />
+            android:visibility="@{model.showNoTrends() ? View.VISIBLE : View.GONE}" />
 
     </RelativeLayout>
 </layout>

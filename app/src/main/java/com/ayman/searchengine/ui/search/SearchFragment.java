@@ -89,7 +89,7 @@ public abstract class SearchFragment extends Fragment implements SearchResultsAd
 
     private void setupAutoComplete(View root) {
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(root.getContext(), android.R.layout.simple_spinner_dropdown_item);
-        AutoCompleteTextView autoComplete = root.findViewById(R.id.search_box);
+        final AutoCompleteTextView autoComplete = root.findViewById(R.id.search_box);
         autoComplete.setThreshold(1);
         autoComplete.setAdapter(adapter);
         mViewModel.getSuggestions().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
@@ -98,6 +98,8 @@ public abstract class SearchFragment extends Fragment implements SearchResultsAd
                 adapter.clear();
                 adapter.addAll(strings);
                 adapter.notifyDataSetChanged();
+                // force autocomplete to update
+                adapter.getFilter().filter(autoComplete.getText(), autoComplete);
             }
         });
     }
@@ -130,7 +132,7 @@ public abstract class SearchFragment extends Fragment implements SearchResultsAd
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 boolean showClearText = !s.toString().trim().isEmpty();
                 mBinding.setShowClearText(showClearText);
-                mViewModel.complete(s.toString());
+                if (showClearText) mViewModel.complete(s.toString());
             }
 
             @Override
