@@ -2,18 +2,20 @@ package com.ayman.searchengine.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.ayman.searchengine.R;
 import com.ayman.searchengine.adapter.SearchResultsAdapter;
 import com.ayman.searchengine.model.SearchResult;
+import com.ayman.searchengine.ui.search.BaseViewModel;
 
 import java.util.List;
 
@@ -34,27 +36,27 @@ public class CustomRecyclerView extends RecyclerView {
         super(context, attrs, defStyleAttr);
     }
 
-    public void init(LifecycleOwner owner, LoadMore loadMore, LiveData<List<SearchResult>> searchResults, LiveData<Boolean> timeOutLiveData, LiveData<Boolean> noMoreLiveData) {
+    public void init(LifecycleOwner owner, LoadMore loadMore, BaseViewModel viewModel) {
         mLoadMore = loadMore;
-        searchResults.observe(owner, new Observer<List<SearchResult>>() {
+        viewModel.getSearchResults().observe(owner, new Observer<List<SearchResult>>() {
             @Override
             public void onChanged(List<SearchResult> searchResults) {
                 mAdapter.setSearchResults(searchResults);
             }
         });
-        timeOutLiveData.observe(owner, new Observer<Boolean>() {
+        viewModel.isNoInternet().observe(owner, new Observer<Boolean>() {
             @Override
-            public void onChanged(final Boolean timeOut) {
-                mNoInternet = timeOut;
+            public void onChanged(final Boolean noInternet) {
+                mNoInternet = noInternet;
                 post(new Runnable() {
                     @Override
                     public void run() {
-                        mAdapter.setNoInternet(timeOut);
+                        mAdapter.setNoInternet(noInternet);
                     }
                 });
             }
         });
-        noMoreLiveData.observe(owner, new Observer<Boolean>() {
+        viewModel.isQueryExhausted().observe(owner, new Observer<Boolean>() {
             @Override
             public void onChanged(final Boolean noMore) {
                 mNoMore = noMore;
@@ -64,6 +66,13 @@ public class CustomRecyclerView extends RecyclerView {
                         mAdapter.setNoMore(noMore);
                     }
                 });
+            }
+        });
+        viewModel.isInternalServerError().observe(owner, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean error) {
+                if (error)
+                    Toast.makeText(getContext(), R.string.internal_server_error, Toast.LENGTH_SHORT).show();
             }
         });
         addOnScrollListener(new OnScrollListener() {

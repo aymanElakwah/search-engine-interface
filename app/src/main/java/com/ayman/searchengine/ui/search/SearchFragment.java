@@ -171,8 +171,7 @@ public abstract class SearchFragment extends Fragment implements SearchResultsAd
                 mViewModel.searchNext(pageNumber);
             }
         };
-        mRecyclerView.init(getViewLifecycleOwner(), loadMore,
-                mViewModel.getSearchResults(), mViewModel.isRequestTimedOut(), mViewModel.isQueryExhausted());
+        mRecyclerView.init(getViewLifecycleOwner(), loadMore, mViewModel);
 
     }
 

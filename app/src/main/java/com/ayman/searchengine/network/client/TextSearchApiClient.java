@@ -25,7 +25,14 @@ public class TextSearchApiClient extends SearchApiClient {
         mTextSearchCallBack = new Callback<List<TextSearchResult>>() {
             @Override
             public void onResponse(@NonNull Call<List<TextSearchResult>> call, @NonNull Response<List<TextSearchResult>> response) {
-                if (!response.isSuccessful()) return;
+                if (!response.isSuccessful()) {
+                    if (mPageNumber == 1) mSearchResults.postValue(null);
+                    if (response.code() == 500)
+                        mInternalServerError.postValue(true);
+                    else
+                        mNoInternet.postValue(true);
+                    return;
+                }
                 List<SearchResult> list = new ArrayList<SearchResult>(response.body());
                 if (mPageNumber == 1) {
                     mSearchResults.postValue(list);
@@ -57,8 +64,6 @@ public class TextSearchApiClient extends SearchApiClient {
     @Override
     protected void search() {
         if (mTextSearchCall != null) mTextSearchCall.cancel();
-        mIsQueryExhausted.setValue(false);
-        mNoInternet.setValue(false);
         mTextSearchCall = getTextSearchResults(mQuery, mPageNumber, mCountry, mUser);
         mTextSearchCall.enqueue(mTextSearchCallBack);
     }

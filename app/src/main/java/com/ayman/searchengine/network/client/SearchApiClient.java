@@ -23,6 +23,7 @@ public abstract class SearchApiClient {
     MutableLiveData<List<SearchResult>> mSearchResults;
     MutableLiveData<Boolean> mNoInternet = new MutableLiveData<>();
     MutableLiveData<Boolean> mIsQueryExhausted = new MutableLiveData<>();
+    MutableLiveData<Boolean> mInternalServerError = new MutableLiveData<>();
 
     SearchApiClient() {
         mSearchResults = new MutableLiveData<>();
@@ -36,6 +37,10 @@ public abstract class SearchApiClient {
         return mIsQueryExhausted;
     }
 
+    public LiveData<Boolean> isInternalServerError() {
+        return mInternalServerError;
+    }
+
     public LiveData<List<SearchResult>> getSearchResults() {
         return mSearchResults;
     }
@@ -46,11 +51,17 @@ public abstract class SearchApiClient {
         mCountry = country;
         mUser = user;
         mSearchResults.setValue(null);
+        mInternalServerError.setValue(false);
+        mIsQueryExhausted.setValue(false);
+        mNoInternet.setValue(false);
         search();
     }
 
     public void searchNext(int pageNumber) {
         mPageNumber = pageNumber;
+        mInternalServerError.setValue(false);
+        mIsQueryExhausted.setValue(false);
+        mNoInternet.setValue(false);
         search();
     }
 

@@ -17,7 +17,8 @@ public abstract class BaseViewModel extends ViewModel {
     private SuggestionsApiClient mSuggestionsApi;
     private String searchQuery;
     private LiveData<Boolean> isQueryExhausted;
-    private LiveData<Boolean> isRequestTimedOut;
+    private LiveData<Boolean> isNoInternet;
+    private LiveData<Boolean> isInternalServerError;
     private LiveData<List<String>> suggestions;
     private String mSearchedCountry;
 
@@ -25,7 +26,8 @@ public abstract class BaseViewModel extends ViewModel {
         mApi = getApi();
         mSuggestionsApi = SuggestionsApiClient.getInstance();
         isQueryExhausted = mApi.isQueryExhausted();
-        isRequestTimedOut = mApi.isNoInternet();
+        isNoInternet = mApi.isNoInternet();
+        isInternalServerError = mApi.isInternalServerError();
         suggestions = mSuggestionsApi.getSuggestions();
         searchQuery = "";
         mSearchedCountry = "";
@@ -35,12 +37,16 @@ public abstract class BaseViewModel extends ViewModel {
         return searchQuery;
     }
 
-    LiveData<Boolean> isQueryExhausted() {
+    public LiveData<Boolean> isQueryExhausted() {
         return isQueryExhausted;
     }
 
-    LiveData<Boolean> isRequestTimedOut() {
-        return isRequestTimedOut;
+    public LiveData<Boolean> isNoInternet() {
+        return isNoInternet;
+    }
+
+    public LiveData<Boolean> isInternalServerError() {
+        return isInternalServerError;
     }
 
     LiveData<List<String>> getSuggestions() {
@@ -62,7 +68,7 @@ public abstract class BaseViewModel extends ViewModel {
     }
 
 
-    LiveData<List<SearchResult>> getSearchResults() {
+    public LiveData<List<SearchResult>> getSearchResults() {
         return mSearchResults;
     }
 

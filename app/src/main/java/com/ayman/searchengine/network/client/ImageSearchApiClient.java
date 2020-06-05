@@ -27,8 +27,11 @@ public class ImageSearchApiClient extends SearchApiClient {
             @Override
             public void onResponse(@NonNull Call<List<ImageSearchResult>> call, @NonNull Response<List<ImageSearchResult>> response) {
                 if (!response.isSuccessful()) {
-                    mNoInternet.postValue(true);
                     if (mPageNumber == 1) mSearchResults.postValue(null);
+                    if (response.code() == 500)
+                        mInternalServerError.postValue(true);
+                    else
+                        mNoInternet.postValue(true);
                     return;
                 }
                 List<SearchResult> list = new ArrayList<SearchResult>(response.body());
@@ -73,8 +76,6 @@ public class ImageSearchApiClient extends SearchApiClient {
     @Override
     protected void search() {
         if (mImageSearchCall != null) mImageSearchCall.cancel();
-        mIsQueryExhausted.setValue(false);
-        mNoInternet.setValue(false);
         mImageSearchCall = getImageSearchResults(mQuery, mPageNumber, mCountry, mUser);
         mImageSearchCall.enqueue(mImageSearchCallBack);
     }
