@@ -80,7 +80,7 @@ public abstract class BaseViewModel extends ViewModel {
 
     void click(String url) {
         try {
-            mApi.click(new URL(url).getAuthority());
+            mApi.click(new URL(url).getHost());
         } catch (MalformedURLException ignore) {
         }
     }

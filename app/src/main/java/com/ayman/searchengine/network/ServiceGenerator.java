@@ -1,5 +1,7 @@
 package com.ayman.searchengine.network;
 
+import com.ayman.searchengine.BuildConfig;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -16,7 +18,7 @@ public class ServiceGenerator {
 
     private static Retrofit.Builder retrofitBuilder =
             new Retrofit.Builder()
-                    .baseUrl("***REMOVED***")
+                    .baseUrl(BuildConfig.baseURL)
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create());
 

@@ -15,6 +15,9 @@ android {
     }
 
     buildTypes {
+        buildTypes.each {
+            it.buildConfigField 'String', 'baseURL', baseURL
+        }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
